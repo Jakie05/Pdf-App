@@ -88,3 +88,21 @@ jobs:
           docker build \
             -t devprep-frontend:test \
             ./frontend
+
+
+      - name: Install Trivy
+        uses: aquasecurity/setup-trivy@v0.2.4
+
+      - name: Scan backend image
+        run: |
+          trivy image \
+            --severity HIGH,CRITICAL \
+            --exit-code 1 \
+            devprep-backend:test
+
+      - name: Scan frontend image
+        run: |
+          trivy image \
+            --severity HIGH,CRITICAL \
+            --exit-code 1 \
+            devprep-frontend:test
